@@ -8,6 +8,8 @@
 /dev/block/by-name/vendor_boot(_[ab])? u:object_r:boot_block_device:s0
 
 ### Vendor
+/vendor/bin/suspend_blocker                                                             u:object_r:suspend_blocker_exec:s0
+
 /vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.software                     u:object_r:hal_gatekeeper_default_exec:s0
 /vendor/bin/hw/android\.hardware\.graphics\.allocator@4\.0-service\.minigbm_gbm_mesa    u:object_r:hal_graphics_allocator_default_exec:s0
 /vendor/bin/hw/android\.hardware\.health-service\.pi4                                   u:object_r:hal_health_default_exec:s0

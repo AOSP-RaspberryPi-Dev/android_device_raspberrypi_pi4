@@ -110,6 +110,13 @@ PRODUCT_PACKAGES += \
     android.hardware.health-service.pi4 \
     android.hardware.health-service.pi4-recovery
 
+# TODO: disable this service once we implement system suspend
+PRODUCT_PACKAGES += \
+    suspend_blocker
+
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/init/init.suspend_blocker.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.suspend_blocker.rc
+
 # init
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/init/fstab.pi4:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.pi4 \

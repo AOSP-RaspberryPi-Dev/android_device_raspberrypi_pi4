@@ -1,0 +1,5 @@
+# TODO: disable this service once we implement system suspend
+service vendor.suspend_blocker /vendor/bin/suspend_blocker
+    class early_hal # Start together with system_suspend HAL
+    group system
+    user root
