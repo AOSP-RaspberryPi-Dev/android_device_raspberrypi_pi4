@@ -15,6 +15,11 @@
 
 DEVICE_PATH := device/raspberrypi/pi4
 
+## A/B Updates
+AB_OTA_UPDATER := true
+AB_OTA_PARTITIONS += \
+    boot
+
 ## APEX image
 DEXPREOPT_GENERATE_APEX_IMAGE := true
 

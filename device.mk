@@ -30,6 +30,11 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 TARGET_SCREEN_HEIGHT := 1080
 TARGET_SCREEN_WIDTH := 1920
 
+# BootControl HAL
+PRODUCT_PACKAGES += \
+    android.hardware.boot-service.default \
+    android.hardware.boot-service.default_recovery
+
 # Device identifier, this must come after all inclusions
 PRODUCT_NAME := pi4
 PRODUCT_DEVICE := pi4
