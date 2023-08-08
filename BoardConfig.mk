@@ -71,6 +71,10 @@ TARGET_KERNEL_CONFIG := bcm2711_defconfig
 TARGET_KERNEL_NO_GCC := true
 TARGET_KERNEL_SOURCE := kernel/raspberrypi/common
 
+## Kernel Modules
+BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVICE_PATH)/configs/kernel/modules.load.recovery))
+BOOT_KERNEL_MODULES := $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD)
+
 ## Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 64 * 1024 * 1024 )))
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 32 * 1024 * 1024 )))
