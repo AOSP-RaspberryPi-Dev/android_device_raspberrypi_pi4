@@ -39,14 +39,14 @@ TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
 
 ## Boot Image
+BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_DTB_OFFSET := 0x3000000
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc
-BOARD_KERNEL_CMDLINE += console=serial0,115200 console=tty1 root=/dev/ram0 rootwait
+BOARD_KERNEL_CMDLINE := console=serial0,115200 console=tty1 root=/dev/ram0 rootwait
 BOARD_KERNEL_OFFSET := 0x80000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_RAMDISK_OFFSET := 0x3300000
