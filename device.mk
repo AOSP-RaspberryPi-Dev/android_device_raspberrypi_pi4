@@ -26,6 +26,13 @@ $(call inherit-product, frameworks/native/build/phone-xhdpi-4096-dalvik-heap.mk)
 # Enable updating of APEXes
 $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
+# Enable virtual A/B
+$(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
+$(call inherit-product, \
+    $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
+
+PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
+
 # Boot Animation
 TARGET_SCREEN_HEIGHT := 1080
 TARGET_SCREEN_WIDTH := 1920
@@ -43,8 +50,16 @@ PRODUCT_MODEL := 4 Model B
 PRODUCT_MANUFACTURER := Raspberry Pi
 PRODUCT_SHIPPING_API_LEVEL := 34
 
+# Dynamic Partitions
+PRODUCT_USE_DYNAMIC_PARTITIONS := true
+
+# fastbootd
+PRODUCT_PACKAGES += \
+    fastbootd
+
 # init
 PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/init/fstab.pi4:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.pi4 \
     $(DEVICE_PATH)/configs/init/init.recovery.pi4.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.pi4.rc
 
 # Overlays
