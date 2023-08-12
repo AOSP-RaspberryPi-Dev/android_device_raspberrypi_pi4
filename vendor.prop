@@ -1,0 +1,6 @@
+## Graphics
+ro.hardware.egl=mesa
+ro.hardware.gralloc=minigbm_mesa
+ro.hardware.hwcomposer=drm
+ro.hardware.vulkan=broadcom
+ro.opengles.version=196610
