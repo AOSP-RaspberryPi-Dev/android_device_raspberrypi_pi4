@@ -108,8 +108,8 @@ TARGET_KERNEL_NO_GCC := true
 TARGET_KERNEL_SOURCE := kernel/raspberrypi/common
 
 ## Kernel Modules
-BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVICE_PATH)/configs/kernel/modules.load.recovery))
-BOOT_KERNEL_MODULES := $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD)
+BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVICE_PATH)/configs/kernel/modules.load))
+BOOT_KERNEL_MODULES := $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD)
 
 ## Manifest
 DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
