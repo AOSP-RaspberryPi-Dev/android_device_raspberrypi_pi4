@@ -33,6 +33,9 @@ $(call inherit-product, \
 
 PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
 
+# Enable project quotas and casefolding for emulated storage without sdcardfs
+$(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
+
 # Boot Animation
 TARGET_SCREEN_HEIGHT := 1080
 TARGET_SCREEN_WIDTH := 1920
@@ -64,6 +67,8 @@ PRODUCT_PACKAGES += \
 # init
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/init/fstab.pi4:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.pi4 \
+    $(DEVICE_PATH)/configs/init/fstab.pi4:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.pi4 \
+    $(DEVICE_PATH)/configs/init/init.pi4.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.pi4.rc \
     $(DEVICE_PATH)/configs/init/init.recovery.pi4.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.pi4.rc
 
 # Keymint
