@@ -39,7 +39,7 @@ TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
 
 ## Boot Image
-BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc
+BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc androidboot.selinux=permissive
 ifeq ($(TARGET_USE_SERIAL_CONSOLE),true)
 BOARD_BOOTCONFIG += androidboot.console=ttyS0
 else
