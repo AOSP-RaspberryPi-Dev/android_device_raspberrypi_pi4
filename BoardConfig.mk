@@ -42,7 +42,7 @@ TARGET_2ND_CPU_VARIANT := generic
 BOARD_USES_TINYHAL_AUDIO := true
 
 ## Boot Image
-BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc androidboot.console=ttyS0
+BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc androidboot.console=ttyS0 androidboot.selinux=permissive
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_DTB_OFFSET := 0x3000000
