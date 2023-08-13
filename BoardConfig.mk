@@ -19,6 +19,7 @@ DEVICE_PATH := device/raspberrypi/pi4
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     boot \
+    dtbo \
     vendor_boot
 
 ## APEX image
@@ -61,6 +62,13 @@ BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
 
 ## Display
 TARGET_SCREEN_DENSITY := 560
+
+## DTB
+BOARD_DTB_CFG := $(DEVICE_PATH)/configs/kernel/dtb.cfg
+
+## DTBO
+BOARD_KERNEL_SEPARATED_DTBO := true
+BOARD_DTBO_CFG := $(DEVICE_PATH)/configs/kernel/dtbo.cfg
 
 ## Dynamic Partitions
 BOARD_SUPER_PARTITION_SIZE := $(shell echo $$(( 5 * 1024 * 1024 * 1024 )))
@@ -120,6 +128,7 @@ DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
 ## Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 64 * 1024 * 1024 )))
 BOARD_BOOTLOADERIMAGE_PARTITION_SIZE := $(shell echo $$(( 256 * 1024 * 1024 )))
+BOARD_DTBOIMG_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 )))
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 32 * 1024 * 1024 )))
 BOARD_FLASH_BLOCK_SIZE := 4096
 
