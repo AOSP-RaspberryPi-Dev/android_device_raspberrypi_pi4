@@ -39,6 +39,9 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
 
+## Audio
+BOARD_USES_TINYHAL_AUDIO := true
+
 ## Boot Image
 BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc androidboot.console=ttyS0
 BOARD_BOOT_HEADER_VERSION := 4
