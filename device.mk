@@ -105,6 +105,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     vulkan.broadcom
 
+# Health
+PRODUCT_PACKAGES += \
+    android.hardware.health-service.pi4 \
+    android.hardware.health-service.pi4-recovery
+
 # init
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/init/fstab.pi4:$(TARGET_COPY_OUT_VENDOR_RAMDISK)/first_stage_ramdisk/fstab.pi4 \
