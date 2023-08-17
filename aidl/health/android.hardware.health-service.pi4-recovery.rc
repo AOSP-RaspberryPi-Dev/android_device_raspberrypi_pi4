@@ -1,0 +1,6 @@
+service vendor.health-pi4 /system/bin/hw/android.hardware.health-service.pi4-recovery
+    class hal
+    user system
+    group system
+    capabilities WAKE_ALARM BLOCK_SUSPEND
+    file /dev/kmsg w
