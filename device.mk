@@ -36,6 +36,9 @@ PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
 # Enable project quotas and casefolding for emulated storage without sdcardfs
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
+# Window Extensions
+$(call inherit-product, $(SRC_TARGET_DIR)/product/window_extensions.mk)
+
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio.service \
