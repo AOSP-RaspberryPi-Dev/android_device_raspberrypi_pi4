@@ -1,3 +1,7 @@
+## Codec2
+debug.stagefright.c2-poolmask=0xf50000
+debug.stagefright.c2inputsurface=-1
+
 ## Graphics
 ro.hardware.egl=mesa
 ro.hardware.gralloc=minigbm_mesa
