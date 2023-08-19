@@ -4,3 +4,6 @@ ro.hardware.gralloc=minigbm_mesa
 ro.hardware.hwcomposer=drm
 ro.hardware.vulkan=broadcom
 ro.opengles.version=196610
+
+## Wi-Fi Direct
+wifi.direct.interface=p2p-dev-wlan0
