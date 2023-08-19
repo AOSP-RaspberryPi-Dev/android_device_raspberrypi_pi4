@@ -128,6 +128,12 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/init/init.pi4.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.pi4.usb.rc \
     $(DEVICE_PATH)/configs/init/init.recovery.pi4.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.pi4.rc
 
+# Kernel Modules
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/init/init.insmod.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.insmod.rc \
+    $(DEVICE_PATH)/configs/init/init.insmod.sh:$(TARGET_COPY_OUT_VENDOR)/bin/init.insmod.sh \
+    $(DEVICE_PATH)/configs/kernel/init.insmod.pi4.cfg:$(TARGET_COPY_OUT_VENDOR)/etc/init.insmod.pi4.cfg
+
 # Keymint
 PRODUCT_PACKAGES += \
     android.hardware.security.keymint-service

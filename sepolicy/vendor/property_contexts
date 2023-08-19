@@ -1,0 +1,7 @@
+# Kernel modules related
+vendor.common.modules.ready                u:object_r:vendor_device_prop:s0
+vendor.device.modules.ready                u:object_r:vendor_device_prop:s0
+
+# Indicating signal that all modules and devices are ready
+vendor.all.modules.ready                   u:object_r:vendor_ready_prop:s0
+vendor.all.devices.ready                   u:object_r:vendor_ready_prop:s0
