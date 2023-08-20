@@ -126,7 +126,8 @@ PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/init/fstab.pi4:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.pi4 \
     $(DEVICE_PATH)/configs/init/init.pi4.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.pi4.rc \
     $(DEVICE_PATH)/configs/init/init.pi4.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.pi4.usb.rc \
-    $(DEVICE_PATH)/configs/init/init.recovery.pi4.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.pi4.rc
+    $(DEVICE_PATH)/configs/init/init.recovery.pi4.rc:$(TARGET_COPY_OUT_RECOVERY)/root/init.recovery.pi4.rc \
+    $(DEVICE_PATH)/configs/init/ueventd.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
 
 # Kernel Modules
 PRODUCT_COPY_FILES += \
@@ -139,6 +140,9 @@ PRODUCT_PACKAGES += \
     android.hardware.security.keymint-service
 
 # Media (Codec2)
+PRODUCT_PACKAGES += \
+    android.hardware.media.c2@1.2-service-ffmpeg
+
 PRODUCT_COPY_FILES += \
     $(DEVICE_PATH)/configs/media/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_audio.xml \
