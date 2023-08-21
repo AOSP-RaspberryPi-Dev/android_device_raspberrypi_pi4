@@ -28,8 +28,10 @@ bluetooth.profile.ccp.server.enabled=true
 bluetooth.profile.vcp.controller.enabled=true
 
 ## Codec2
-debug.stagefright.c2-poolmask=0xf50000
+debug.stagefright.c2-poolmask=0x0c0000
 debug.stagefright.c2inputsurface=-1
+ro.vendor.v4l2_codec2.decode_concurrent_instances=8
+ro.vendor.v4l2_codec2.encode_concurrent_instances=8
 vendor.ffmpeg_codec2.rank.audio=16
 vendor.ffmpeg_codec2.rank.video=256
 vendor.ffmpeg_codec2.v4l2.h264=true

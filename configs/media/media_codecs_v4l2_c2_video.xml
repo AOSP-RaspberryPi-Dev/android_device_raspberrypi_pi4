@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2018 The Android Open Source Project
+     Copyright (C) 2021 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,8 +15,16 @@
      limitations under the License.
 -->
 
-<MediaCodecs>
-    <Include href="media_codecs_v4l2_c2_video.xml" />
-    <Include href="media_codecs_google_c2_audio.xml" />
-    <Include href="media_codecs_google_c2_video.xml" />
-</MediaCodecs>
+<Included>
+   <Encoders>
+       <MediaCodec name="c2.v4l2.avc.encoder" type="video/avc">
+           <Limit name="size" min="32x32" max="4096x4096" />
+           <Limit name="alignment" value="2x2" />
+           <Limit name="block-size" value="16x16" />
+           <Limit name="blocks-per-second" range="1-983040" />
+           <Limit name="bitrate" range="1-40000000" />
+           <Limit name="concurrent-instances" max="8" />
+           <Limit name="performance-point-1280x720" range="30-30" />
+       </MediaCodec>
+   </Encoders>
+</Included>
