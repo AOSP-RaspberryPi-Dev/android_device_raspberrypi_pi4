@@ -17,7 +17,7 @@
 DEVICE_PATH := device/raspberrypi/pi4
 
 # Inherit from generic products, most specific first
-$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit_only.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base.mk)
 
 # Setup dalvik vm configs
