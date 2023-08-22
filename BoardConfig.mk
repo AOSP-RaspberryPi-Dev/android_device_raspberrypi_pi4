@@ -19,7 +19,9 @@ DEVICE_PATH := device/raspberrypi/pi4
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
     boot \
+    bootloader \
     dtbo \
+    vbmeta \
     vendor_boot
 
 ## APEX image
@@ -64,6 +66,9 @@ BOARD_MKBOOTIMG_ARGS += --kernel_offset $(BOARD_KERNEL_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
+
+## Bootloader
+BOARD_PACK_RADIOIMAGES += bootloader.img
 
 ## Display
 TARGET_SCREEN_DENSITY := 160

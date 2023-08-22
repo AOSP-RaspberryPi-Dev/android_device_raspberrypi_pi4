@@ -36,30 +36,38 @@ $(U_BOOT_BIN): $(TARGET_U_BOOT_SOURCE)
 
 MTOOLS := $(HOST_OUT_EXECUTABLES)/mtools$(HOST_EXECUTABLE_SUFFIX)
 
-BOOTLOADER_FILES := $(PRODUCT_OUT)/bootloader_files
+BOOTLOADER_OUT := $(TARGET_OUT_INTERMEDIATES)/BOOTLOADER_OBJ
 BOOTLOADER_SIZE_MB := $(shell echo $$(( $(BOARD_BOOTLOADERIMAGE_PARTITION_SIZE) / 1024 / 1024 )))
-DTB_OUT := $(KERNEL_OUT)/arch/$(KERNEL_ARCH)/boot/dts
+KERNEL_OUT := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ
+DTB_DIR := $(KERNEL_OUT)/arch/$(KERNEL_ARCH)/boot/dts
 FIRMWARE_DIR := vendor/raspberrypi/rpi-firmware
 
-$(BOOTLOADER_FILES): $(TARGET_PREBUILT_INT_KERNEL) $(FIRMWARE_DIR) $(U_BOOT_BIN)
+INSTALLED_BOOTLOADERIMAGE_TARGET := $(PRODUCT_OUT)/bootloader.img
+
+$(BOOTLOADER_OUT): $(PRODUCT_OUT)/kernel $(FIRMWARE_DIR) $(U_BOOT_BIN)
 	$(hide) mkdir -p $@
 	cp $(DEVICE_PATH)/configs/bootloader/* $@
-	cp $(DTB_OUT)/broadcom/*.dtb $@
+	cp $(DTB_DIR)/broadcom/*.dtb $@
 	$(hide) mkdir -p $@/overlays
-	cp $(DTB_OUT)/overlays/*.dtbo $@/overlays
+	cp $(DTB_DIR)/overlays/*.dtbo $@/overlays
 	cp $(FIRMWARE_DIR)/*.bin $@
 	cp $(FIRMWARE_DIR)/*.dat $@
 	cp $(FIRMWARE_DIR)/*.elf $@
 	cp $(U_BOOT_BIN) $@
 
-$(INSTALLED_BOOTLOADER_MODULE): $(MTOOLS) $(BOOTLOADER_FILES)
+$(INSTALLED_BOOTLOADERIMAGE_TARGET): $(MTOOLS) $(BOOTLOADER_OUT)
 	@echo "Building bootloader.img"
 	$(hide) dd if=/dev/zero of=$@ bs=1M count=$(BOOTLOADER_SIZE_MB)
 	$(hide) $(MTOOLS) -c mformat -F -i $@
-	$(hide) $(MTOOLS) -c mcopy -s -i $@ $(BOOTLOADER_FILES)/* ::
+	$(hide) $(MTOOLS) -c mcopy -s -i $@ $(BOOTLOADER_OUT)/* ::
+
+$(INSTALLED_BOOTLOADER_MODULE): $(INSTALLED_BOOTLOADERIMAGE_TARGET)
+	$(hide) cp $< $@
 
 .PHONY: bootloaderimage
-bootloaderimage: $(INSTALLED_BOOTLOADER_MODULE)
+bootloaderimage: $(INSTALLED_BOOTLOADERIMAGE_TARGET)
+
+INSTALLED_RADIOIMAGE_TARGET += $(INSTALLED_BOOTLOADERIMAGE_TARGET)
 
 endif # TARGET_U_BOOT_SOURCE
 endif # BOARD_BOOTLOADERIMAGE_PARTITION_SIZE

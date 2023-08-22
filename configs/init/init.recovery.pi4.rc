@@ -1,6 +1,9 @@
 on init
     setprop sys.usb.configfs 1
 
+    symlink /dev/block/by-name/bootloader /dev/block/by-name/bootloader_a
+    symlink /dev/block/by-name/bootloader /dev/block/by-name/bootloader_b
+
 on init && property:ro.debuggable=1 && property:ro.boot.mode=recovery
     start recovery-console
 
