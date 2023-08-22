@@ -39,6 +39,27 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 # Window Extensions
 $(call inherit-product, $(SRC_TARGET_DIR)/product/window_extensions.mk)
 
+# A/B support
+PRODUCT_PACKAGES += \
+    otapreopt_script \
+    cppreopts.sh \
+    update_engine \
+    update_engine_sideload \
+    update_verifier
+
+# Use /product/etc/fstab.postinstall to mount system_other
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.postinstall.fstab.prefix=/product
+
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/init/fstab.postinstall:$(TARGET_COPY_OUT_PRODUCT)/etc/fstab.postinstall
+
+AB_OTA_POSTINSTALL_CONFIG += \
+    RUN_POSTINSTALL_system=true \
+    POSTINSTALL_PATH_system=system/bin/otapreopt_script \
+    FILESYSTEM_TYPE_system=ext4 \
+    POSTINSTALL_OPTIONAL_system=true
+
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio.service \
