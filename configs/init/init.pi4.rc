@@ -1,3 +1,11 @@
+on init
+   # Switch to ondemand cpu governor
+   write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor "ondemand"
+   write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold 50
+   write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 100000
+   write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 50
+   write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 0
+
 on fs
     mount_all /vendor/etc/fstab.${ro.hardware} --early
 
