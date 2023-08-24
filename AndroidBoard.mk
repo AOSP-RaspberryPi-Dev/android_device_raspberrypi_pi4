@@ -20,6 +20,8 @@ ifneq ($(TARGET_U_BOOT_SOURCE),)
 
 U_BOOT_OUT := $(TARGET_OUT_INTERMEDIATES)/U_BOOT_OBJ
 U_BOOT_BIN := $(U_BOOT_OUT)/u-boot.bin
+U_BOOT_CONFIG := $(U_BOOT_OUT)/.config
+U_BOOT_DEFCONFIG_SRCS := $(TARGET_U_BOOT_SOURCE)/configs/$(TARGET_U_BOOT_CONFIG)
 
 U_BOOT_BUILD_TOOLS_PATH := $(BUILD_TOP)/prebuilts/build-tools/$(HOST_PREBUILT_TAG)/bin
 U_BOOT_CLANG_PATH := $(shell find $(BUILD_TOP)/prebuilts/clang/host/$(HOST_PREBUILT_TAG)/clang-*[0-9]* -maxdepth 0 | tail -n1)
@@ -29,9 +31,15 @@ U_BOOT_MAKE_FLAGS += ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- LLVM=1
 U_BOOT_PATH_OVERRIDE := PATH=$(U_BOOT_CLANG_PATH)/bin:$(U_BOOT_BUILD_TOOLS_PATH):$$PATH
 U_BOOT_PATH_OVERRIDE += BISON_PKGDATADIR=$(BUILD_TOP)/prebuilts/build-tools/common/bison
 
-$(U_BOOT_BIN): $(TARGET_U_BOOT_SOURCE)
-	@echo "Building u-boot.bin"
+$(U_BOOT_OUT):
+	$(hide) mkdir -p $@
+
+$(U_BOOT_CONFIG): $(U_BOOT_OUT)
+	@echo "Building u-boot config"
 	$(hide) $(U_BOOT_PATH_OVERRIDE) make $(U_BOOT_MAKE_FLAGS) $(TARGET_U_BOOT_CONFIG)
+
+$(U_BOOT_BIN): $(U_BOOT_CONFIG)
+	@echo "Building u-boot.bin"
 	$(hide) $(U_BOOT_PATH_OVERRIDE) make $(U_BOOT_MAKE_FLAGS)
 
 MTOOLS := $(HOST_OUT_EXECUTABLES)/mtools$(HOST_EXECUTABLE_SUFFIX)
