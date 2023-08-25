@@ -1,0 +1,4 @@
+allow kernel device:dir rw_dir_perms;
+allow kernel device:chr_file { create setattr unlink };
+
+r_dir_file(kernel, vendor_firmware_file)

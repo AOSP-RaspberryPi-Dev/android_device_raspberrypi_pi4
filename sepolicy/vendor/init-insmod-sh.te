@@ -12,4 +12,7 @@ allow init-insmod-sh kernel:process setsched;
 set_prop(init-insmod-sh, vendor_device_prop)
 set_prop(init-insmod-sh, vendor_ready_prop)
 
-dontaudit init-insmod-sh proc_cmdline:file r_file_perms;
+allow init-insmod-sh self:key write;
+allow kernel init-insmod-sh:key search;
+
+allow init-insmod-sh proc_cmdline:file r_file_perms;

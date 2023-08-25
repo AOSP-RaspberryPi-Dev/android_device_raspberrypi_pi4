@@ -1,0 +1,2 @@
+# vendor types
+type vendor_firmware_file, file_type, vendor_file_type;

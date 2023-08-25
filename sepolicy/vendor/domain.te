@@ -1,0 +1,2 @@
+# gralloc passthrough HAL
+get_prop(domain, vendor_mesa_prop)
