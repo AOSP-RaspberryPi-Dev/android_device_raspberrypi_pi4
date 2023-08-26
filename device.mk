@@ -121,6 +121,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.graphics.allocator-service.minigbm_gbm_mesa \
     android.hardware.graphics.mapper@4.0-impl.minigbm_gbm_mesa \
+    mapper.minigbm_gbm_mesa \
     libgbm_mesa_wrapper
 
 PRODUCT_PACKAGES += \
