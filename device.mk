@@ -83,7 +83,7 @@ PRODUCT_COPY_FILES += \
 
 # Bluetooth
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.1-service.btlinux
+    android.hardware.bluetooth-service.default
 
 PRODUCT_COPY_FILES += \
     vendor/raspberrypi/bluez-firmware/broadcom/BCM4345C0.hcd:$(TARGET_COPY_OUT_VENDOR)/firmware/brcm/BCM4345C0.hcd \
