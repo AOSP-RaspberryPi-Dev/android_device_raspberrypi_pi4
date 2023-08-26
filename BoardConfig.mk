@@ -167,7 +167,7 @@ BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
 ## U-Boot
 TARGET_U_BOOT_CONFIG := rpi_4_defconfig
-TARGET_U_BOOT_SOURCE := bootable/raspberrypi/u-boot
+TARGET_U_BOOT_SOURCE := external/raspberrypi/u-boot
 
 ## Verified Boot
 BOARD_AVB_ENABLE := true
