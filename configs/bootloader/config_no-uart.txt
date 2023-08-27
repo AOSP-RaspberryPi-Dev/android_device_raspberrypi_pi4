@@ -1,0 +1,2 @@
+# Enable nulldev-serial to allow booting U-Boot without UART
+dtoverlay=u-boot-nulldev-serial

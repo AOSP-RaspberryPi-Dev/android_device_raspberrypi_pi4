@@ -1,5 +1,4 @@
 arm_64bit=1
-enable_uart=1
 kernel=u-boot.bin
 
 # Enable USB Gadget

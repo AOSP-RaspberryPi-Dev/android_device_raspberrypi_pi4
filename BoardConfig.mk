@@ -45,7 +45,10 @@ TARGET_2ND_CPU_VARIANT := generic
 BOARD_USES_TINYHAL_AUDIO := true
 
 ## Boot Image
-BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc androidboot.console=ttyS0
+BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc
+ifeq ($(TARGET_ENABLE_SERIAL_CONSOLE),true)
+BOARD_BOOTCONFIG += androidboot.console=ttyS0
+endif
 BOARD_BOOTCONFIG += androidboot.wificountrycode=00
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_CUSTOM_BOOTIMG := true

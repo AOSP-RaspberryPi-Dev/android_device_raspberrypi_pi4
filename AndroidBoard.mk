@@ -54,7 +54,12 @@ INSTALLED_BOOTLOADERIMAGE_TARGET := $(PRODUCT_OUT)/bootloader.img
 
 $(BOOTLOADER_OUT): $(PRODUCT_OUT)/kernel $(FIRMWARE_DIR) $(U_BOOT_BIN)
 	$(hide) mkdir -p $@
-	cp $(DEVICE_PATH)/configs/bootloader/* $@
+	cp $(DEVICE_PATH)/configs/bootloader/config.txt $@
+ifeq ($(TARGET_ENABLE_SERIAL_CONSOLE),true)
+	cat $(DEVICE_PATH)/configs/bootloader/config_uart.txt >> $@/config.txt
+else
+	cat $(DEVICE_PATH)/configs/bootloader/config_no-uart.txt >> $@/config.txt
+endif
 	cp $(DTB_DIR)/broadcom/*.dtb $@
 	$(hide) mkdir -p $@/overlays
 	cp $(DTB_DIR)/overlays/*.dtbo $@/overlays
