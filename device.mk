@@ -217,6 +217,10 @@ PRODUCT_COPY_FILES += \
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH)
 
+# USB
+PRODUCT_PACKAGES += \
+    android.hardware.usb-service.pi4
+
 # WiFi
 PRODUCT_PACKAGES += \
     android.hardware.wifi@1.0-service \
