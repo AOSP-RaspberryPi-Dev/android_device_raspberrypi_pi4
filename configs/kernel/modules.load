@@ -21,3 +21,5 @@ v3d.ko
 
 dwc2.ko
 roles.ko
+
+exfat.ko
