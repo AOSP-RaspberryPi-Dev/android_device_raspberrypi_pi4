@@ -1,3 +1,7 @@
+## Adoptable Storage
+ro.crypto.volume.options=adiantum
+ro.crypto.volume.metadata.encryption=adiantum
+
 ## Bluetooth
 bluetooth.device.class_of_device=90,1,16
 bluetooth.device.default_name=Raspberry Pi
@@ -30,6 +34,9 @@ vendor.ffmpeg_codec2.rank.audio=16
 vendor.ffmpeg_codec2.rank.video=256
 vendor.ffmpeg_codec2.v4l2.h264=true
 vendor.ffmpeg_codec2.v4l2.h265=true
+
+## Encryption
+ro.crypto.metadata_init_delete_all_keys.enabled=true
 
 ## Graphics
 ro.hardware.egl=mesa

@@ -7,9 +7,9 @@ system_ext                        /system_ext     ext4    ro,barrier=1          
 vendor                            /vendor         ext4    ro,barrier=1            wait,logical,first_stage_mount,slotselect
 vendor_dlkm                       /vendor_dlkm    ext4    ro,barrier=1            wait,logical,first_stage_mount,slotselect
 
-/dev/block/by-name/metadata       /metadata       ext4    noatime,nosuid,nodev,discard,sync                                                       wait,formattable,first_stage_mount,check
+/dev/block/by-name/metadata       /metadata       ext4    noatime,nosuid,nodev,data=journal,commit=1                                              wait,check,formattable,first_stage_mount,metadata_csum
 
-/dev/block/by-name/userdata       /data           ext4    noatime,nosuid,nodev,noauto_da_alloc,discard,journal_checksum,data=ordered,errors=panic wait,check,quota
+/dev/block/by-name/userdata       /data           ext4    noatime,nosuid,nodev,noauto_da_alloc,discard,journal_checksum,data=ordered,errors=panic latemount,wait,check,formattable,quota,fileencryption=adiantum,metadata_encryption=adiantum,keydirectory=/metadata/vold/metadata_encryption
 
 /dev/block/by-name/boot           /boot           emmc    defaults                                                                                recoveryonly,slotselect
 /dev/block/by-name/dtbo           /dtbo           emmc    defaults                                                                                recoveryonly,slotselect
