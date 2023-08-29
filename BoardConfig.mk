@@ -49,7 +49,7 @@ BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/f
 ifeq ($(TARGET_ENABLE_SERIAL_CONSOLE),true)
 BOARD_BOOTCONFIG += androidboot.console=ttyS0
 endif
-BOARD_BOOTCONFIG += androidboot.wificountrycode=00
+BOARD_BOOTCONFIG += androidboot.wificountrycode=00 androidboot.hypervisor.protected_vm.supported=true
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_DTB_OFFSET := 0x3000000
