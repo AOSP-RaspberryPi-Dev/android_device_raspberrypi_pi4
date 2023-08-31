@@ -21,6 +21,7 @@ AB_OTA_PARTITIONS += \
     boot \
     bootloader \
     dtbo \
+    init_boot \
     vbmeta \
     vendor_boot
 
@@ -55,6 +56,7 @@ BOARD_CUSTOM_BOOTIMG := true
 BOARD_DTB_OFFSET := 0x3000000
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
+BOARD_INIT_BOOT_HEADER_VERSION := 4
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_CMDLINE := coherent_pool=1M 8250.nr_uarts=1 console=ttyS0,115200 console=tty1 root=/dev/ram0 rootwait vc_mem.mem_base=0x3ec00000 vc_mem.mem_size=0x40000000
 BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware
@@ -69,6 +71,8 @@ BOARD_MKBOOTIMG_ARGS += --kernel_offset $(BOARD_KERNEL_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset $(BOARD_RAMDISK_OFFSET)
 BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
+
+BOARD_MKBOOTIMG_INIT_ARGS += --header_version $(BOARD_INIT_BOOT_HEADER_VERSION)
 
 ## Bootloader
 BOARD_PACK_RADIOIMAGES += bootloader.img
@@ -144,6 +148,7 @@ DEVICE_MANIFEST_FILE := $(DEVICE_PATH)/manifest.xml
 BOARD_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 64 * 1024 * 1024 )))
 BOARD_BOOTLOADERIMAGE_PARTITION_SIZE := $(shell echo $$(( 256 * 1024 * 1024 )))
 BOARD_DTBOIMG_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 )))
+BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 )))
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 32 * 1024 * 1024 )))
 BOARD_FLASH_BLOCK_SIZE := 4096
 
