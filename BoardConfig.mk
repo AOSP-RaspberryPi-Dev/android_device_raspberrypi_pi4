@@ -23,7 +23,8 @@ AB_OTA_PARTITIONS += \
     dtbo \
     init_boot \
     vbmeta \
-    vendor_boot
+    vendor_boot \
+    vendor_kernel_boot
 
 ## APEX image
 DEXPREOPT_GENERATE_APEX_IMAGE := true
@@ -136,8 +137,8 @@ TARGET_KERNEL_NO_GCC := true
 TARGET_KERNEL_SOURCE := kernel/raspberrypi/common
 
 ## Kernel Modules
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVICE_PATH)/configs/kernel/modules.load))
-BOOT_KERNEL_MODULES := $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD)
+BOARD_VENDOR_KERNEL_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVICE_PATH)/configs/kernel/modules.load))
+BOOT_KERNEL_MODULES := $(BOARD_VENDOR_KERNEL_RAMDISK_KERNEL_MODULES_LOAD)
 
 ## Manifest
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := \
@@ -150,6 +151,7 @@ BOARD_BOOTLOADERIMAGE_PARTITION_SIZE := $(shell echo $$(( 256 * 1024 * 1024 )))
 BOARD_DTBOIMG_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 )))
 BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := $(shell echo $$(( 8 * 1024 * 1024 )))
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 32 * 1024 * 1024 )))
+BOARD_VENDOR_KERNEL_BOOTIMAGE_PARTITION_SIZE := $(shell echo $$(( 32 * 1024 * 1024 )))
 BOARD_FLASH_BLOCK_SIZE := 4096
 
 BOARD_USES_METADATA_PARTITION := true

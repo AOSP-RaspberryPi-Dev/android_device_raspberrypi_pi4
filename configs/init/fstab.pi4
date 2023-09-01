@@ -15,6 +15,7 @@ vendor_dlkm                              /vendor_dlkm         ext4    ro,barrier
 /dev/block/by-name/dtbo                  /dtbo                emmc    defaults                                                                                recoveryonly,slotselect
 /dev/block/by-name/init_boot             /init_boot           emmc    defaults                                                                                recoveryonly,slotselect
 /dev/block/by-name/vendor_boot           /vendor_boot         emmc    defaults                                                                                recoveryonly,slotselect
+/dev/block/by-name/vendor_kernel_boot    /vendor_kernel_boot  emmc    defaults                                                                                recoveryonly,slotselect
 
 /dev/block/by-name/misc                  /misc                emmc    defaults                                                                                defaults
 
