@@ -1,2 +1,3 @@
 # gralloc passthrough HAL
 get_prop(domain, vendor_mesa_prop)
+allow { domain -isolated_app } sysfs_gpu:file r_file_perms;
