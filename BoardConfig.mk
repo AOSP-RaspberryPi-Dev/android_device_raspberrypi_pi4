@@ -47,10 +47,7 @@ TARGET_2ND_CPU_VARIANT := generic
 BOARD_USES_TINYHAL_AUDIO := true
 
 ## Boot Image
-BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc
-ifeq ($(TARGET_ENABLE_SERIAL_CONSOLE),true)
-BOARD_BOOTCONFIG += androidboot.console=ttyS0
-endif
+BOARD_BOOTCONFIG := androidboot.hardware=pi4 androidboot.boot_devices=emmc2bus/fe340000.mmc androidboot.console=ttyS0
 BOARD_BOOTCONFIG += androidboot.wificountrycode=00
 BOARD_BOOTCONFIG += androidboot.hypervisor.vm.supported=true androidboot.hypervisor.protected_vm.supported=false
 BOARD_BOOT_HEADER_VERSION := 4
@@ -60,7 +57,7 @@ BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
 BOARD_INIT_BOOT_HEADER_VERSION := 4
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := coherent_pool=1M 8250.nr_uarts=1 console=ttyS0,115200 console=tty1 root=/dev/ram0 rootwait vc_mem.mem_base=0x3ec00000 vc_mem.mem_size=0x40000000
+BOARD_KERNEL_CMDLINE := coherent_pool=1M console=ttyS0,115200 console=tty1 root=/dev/ram0 rootwait vc_mem.mem_base=0x3ec00000 vc_mem.mem_size=0x40000000
 BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware kvm-arm.mode=nvhe
 BOARD_KERNEL_OFFSET := 0x200000
 BOARD_KERNEL_PAGESIZE := 4096
