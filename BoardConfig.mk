@@ -176,6 +176,7 @@ BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
 ## U-Boot
 TARGET_U_BOOT_CONFIG := rpi_4_defconfig
+TARGET_U_BOOT_CONFIG_FRAGMENT := $(DEVICE_PATH)/configs/bootloader/rpi_4_android.config
 TARGET_U_BOOT_SOURCE := external/raspberrypi/u-boot
 
 ## Verified Boot
