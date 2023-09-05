@@ -3,3 +3,6 @@ kernel=u-boot.bin
 
 # Enable USB Gadget
 dtoverlay=dwc2
+
+# Disable WiFi sdio interface
+dtoverlay=disable-wifi
