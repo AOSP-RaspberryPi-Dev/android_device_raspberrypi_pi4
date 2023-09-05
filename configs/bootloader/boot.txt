@@ -1,0 +1,154 @@
+#
+# Copyright (C) 2023 The LineageOS Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+setenv bootmenu_0 Boot normally=setenv bootmenu_target "bcb"
+setenv bootmenu_1 Boot System=setenv bootmenu_target "normal"
+setenv bootmenu_2 Boot Recovery=setenv bootmenu_target "recovery"
+setenv bootmenu_3 Enter Fastboot=setenv bootmenu_target "bootloader"
+setenv bootmenu_delay 3
+bootmenu
+
+if test ${bootmenu_target} = "bcb"; then
+    if bcb load 0 misc; then
+        # Valid BCB found
+        if bcb test command = bootonce-bootloader; then
+            bcb clear command
+            bcb store
+            setenv android_bootmode "bootloader"
+        elif bcb test command = boot-recovery; then
+            setenv android_bootmode "recovery"
+        else
+            setenv android_bootmode "normal"
+        fi
+    else
+        # Non-existent/corrupted BCB, assume normal boot
+        setenv android_bootmode "normal"
+    fi
+else
+    setenv android_bootmode "${bootmenu_target}"
+fi
+
+while test "${android_bootmode}" = "bootloader"; do
+    cls
+    echo "FASTBOOT MODE"
+    setenv fastboot_bootcmd 'setenv fastboot_boot "true"'
+    fastboot usb 0
+
+    bootmenu
+
+    if test "${bootmenu_target}" != "bcb"; then
+        setenv android_bootmode "${bootmenu_target}"
+    else
+        setenv android_bootmode "normal"
+    fi
+done
+
+# Determine current slot and decrement boot tries when not booting recovery or from fastboot
+if test "${android_bootmode}" != "recovery" && test -z "${fastboot_boot}"; then
+    ab_select slot_name mmc 0#misc
+else
+    ab_select slot_name mmc 0#misc --no-dec
+fi
+
+if test -z "${slot_name}"; then
+    echo "Failed to get current slot"
+    exit
+fi
+
+# Get partition sizes
+part start mmc 0 boot_${slot_name} boot_start
+part size mmc 0 boot_${slot_name} boot_size
+part start mmc 0 vendor_boot_${slot_name} vendor_boot_start
+part size mmc 0 vendor_boot_${slot_name} vendor_boot_size
+part start mmc 0 init_boot_${slot_name} init_boot_start
+part size mmc 0 init_boot_${slot_name} init_boot_size
+part start mmc 0 vendor_kernel_boot_${slot_name} vendor_kernel_boot_start
+part size mmc 0 vendor_kernel_boot_${slot_name} vendor_kernel_boot_size
+part start mmc 0 dtbo_${slot_name} dtbo_start
+part size mmc 0 dtbo_${slot_name} dtbo_size
+
+# Calculate size in bytes from block count
+setexpr boot_size_bytes ${boot_size} * 0x200
+setexpr vendor_boot_size_bytes ${vendor_boot_size} * 0x200
+setexpr init_boot_size_bytes ${init_boot_size} * 0x200
+setexpr vendor_kernel_boot_size_bytes ${vendor_kernel_boot_size} * 0x200
+
+# Set loadaddrs
+setexpr vloadaddr ${loadaddr} + ${boot_size_bytes}
+setexpr iloadaddr ${vloadaddr} + ${vendor_boot_size_bytes}
+setexpr vkloadaddr ${iloadaddr} + ${init_boot_size_bytes}
+setexpr ramdisk_addr_r ${vkloadaddr} + ${vendor_kernel_boot_size_bytes}
+
+# Pass U-Boot version to android
+setenv extra_bootconfig "androidboot.bootloader=${ver};"
+
+# Pass hardware revision to android
+fdt addr -q ${fdt_addr}
+fdt get value fdt_model / model
+setenv extra_bootconfig "${extra_bootconfig}androidboot.hardware.revision=${fdt_model};"
+setenv extra_bootconfig "${extra_bootconfig}androidboot.revision=${fdt_model};"
+
+# Pass UART status in cmdline
+fdt get value uart1_status uart1 status
+if test "${uart1_status}" != "disabled"; then
+    setenv bootargs "8250.nr_uarts=1"
+else
+    setenv bootargs "8250.nr_uarts=0"
+fi
+
+# Pass bootmode to android
+setenv extra_bootconfig "${extra_bootconfig}androidboot.mode=${android_bootmode};"
+if test "${android_bootmode}" != "recovery"; then
+    # Boot to system instead of recovery
+    setenv extra_bootconfig "${extra_bootconfig}androidboot.force_normal_boot=1;"
+fi
+
+# Pass slot suffix to android
+setenv extra_bootconfig "${extra_bootconfig}androidboot.slot_suffix=_${slot_name};"
+
+# Pass serial number to android
+setenv extra_bootconfig "${extra_bootconfig}androidboot.serialno=${serial#};"
+
+# Set AVB unlocked to allow using fastbootd
+setenv extra_bootconfig "${extra_bootconfig}androidboot.verifiedbootstate=orange;"
+
+# Load boot images
+if test -z "${fastboot_boot}"; then
+    mmc read ${loadaddr} ${boot_start} ${boot_size}
+fi
+mmc read ${vloadaddr} ${vendor_boot_start} ${vendor_boot_size}
+mmc read ${iloadaddr} ${init_boot_start} ${init_boot_size}
+mmc read ${vkloadaddr} ${vendor_kernel_boot_start} ${vendor_kernel_boot_size}
+abootimg addr ${loadaddr} ${vloadaddr} ${iloadaddr} ${vkloadaddr}
+
+# Set up dtb
+abootimg get dtb --index=0 dtb_addr_r
+fdt addr ${dtb_addr_r}
+fdt boardsetup
+mmc read ${fdt_addr_r} ${dtbo_start} ${dtbo_size}
+adtimg addr ${fdt_addr_r}
+setenv dtbo_index "0"
+while test -n "${dtbo_index}"; do
+    adtimg get dt --index=${dtbo_index} dtbo0_addr dtbo0_size || setenv dtbo_index ""
+    if test -n "${dtbo_index}"; then
+        fdt resize $dtbo0_size
+        fdt apply $dtbo0_addr
+        setexpr dtbo_index ${dtbo_index} + 1
+    fi
+done
+
+# Boot Android
+bootm ${loadaddr} ${loadaddr} ${dtb_addr_r}

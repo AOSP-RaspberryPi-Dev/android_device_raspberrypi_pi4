@@ -22,6 +22,7 @@ U_BOOT_OUT := $(TARGET_OUT_INTERMEDIATES)/U_BOOT_OBJ
 U_BOOT_BIN := $(U_BOOT_OUT)/u-boot.bin
 U_BOOT_CONFIG := $(U_BOOT_OUT)/.config
 U_BOOT_DEFCONFIG_SRCS := $(TARGET_U_BOOT_SOURCE)/configs/$(TARGET_U_BOOT_CONFIG)
+U_BOOT_MKIMAGE := $(U_BOOT_OUT)/tools/mkimage
 
 U_BOOT_BUILD_TOOLS_PATH := $(BUILD_TOP)/prebuilts/build-tools/$(HOST_PREBUILT_TAG)/bin
 U_BOOT_CLANG_PATH := $(shell find $(BUILD_TOP)/prebuilts/clang/host/$(HOST_PREBUILT_TAG)/clang-*[0-9]* -maxdepth 0 | tail -n1)
@@ -48,6 +49,8 @@ $(U_BOOT_BIN): $(U_BOOT_CONFIG)
 	@echo "Building u-boot.bin"
 	$(hide) $(U_BOOT_PATH_OVERRIDE) make $(U_BOOT_MAKE_FLAGS)
 
+$(U_BOOT_MKIMAGE): $(U_BOOT_BIN)
+
 MTOOLS := $(HOST_OUT_EXECUTABLES)/mtools$(HOST_EXECUTABLE_SUFFIX)
 
 BOOTLOADER_OUT := $(TARGET_OUT_INTERMEDIATES)/BOOTLOADER_OBJ
@@ -58,7 +61,7 @@ FIRMWARE_DIR := vendor/raspberrypi/rpi-firmware
 
 INSTALLED_BOOTLOADERIMAGE_TARGET := $(PRODUCT_OUT)/bootloader.img
 
-$(BOOTLOADER_OUT): $(PRODUCT_OUT)/kernel $(FIRMWARE_DIR) $(U_BOOT_BIN)
+$(BOOTLOADER_OUT): $(PRODUCT_OUT)/kernel $(FIRMWARE_DIR) $(U_BOOT_BIN) $(U_BOOT_MKIMAGE)
 	$(hide) mkdir -p $@
 	cp $(DEVICE_PATH)/configs/bootloader/config.txt $@
 ifeq ($(TARGET_ENABLE_SERIAL_CONSOLE),true)
@@ -73,6 +76,9 @@ endif
 	cp $(FIRMWARE_DIR)/*.dat $@
 	cp $(FIRMWARE_DIR)/*.elf $@
 	cp $(U_BOOT_BIN) $@
+ifneq ($(TARGET_U_BOOT_BOOTSCRIPT),)
+	$(U_BOOT_MKIMAGE) -A arm -T script -O linux -d $(TARGET_U_BOOT_BOOTSCRIPT) $@/boot.scr
+endif
 
 $(INSTALLED_BOOTLOADERIMAGE_TARGET): $(MTOOLS) $(BOOTLOADER_OUT)
 	@echo "Building bootloader.img"
