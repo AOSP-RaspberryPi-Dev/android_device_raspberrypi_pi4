@@ -25,6 +25,7 @@ U_BOOT_DEFCONFIG_SRCS := $(TARGET_U_BOOT_SOURCE)/configs/$(TARGET_U_BOOT_CONFIG)
 
 U_BOOT_BUILD_TOOLS_PATH := $(BUILD_TOP)/prebuilts/build-tools/$(HOST_PREBUILT_TAG)/bin
 U_BOOT_CLANG_PATH := $(shell find $(BUILD_TOP)/prebuilts/clang/host/$(HOST_PREBUILT_TAG)/clang-*[0-9]* -maxdepth 0 | tail -n1)
+U_BOOT_ENV := $(BUILD_TOP)/$(U_BOOT_OUT)/uboot.env
 U_BOOT_KCONFIG := $(TARGET_U_BOOT_SOURCE)/scripts/config
 U_BOOT_MERGE_CONFIG := $(TARGET_U_BOOT_SOURCE)/scripts/kconfig/merge_config.sh
 U_BOOT_MAKE_FLAGS := -C $(BUILD_TOP)/$(TARGET_U_BOOT_SOURCE) O=$(BUILD_TOP)/$(U_BOOT_OUT)
@@ -44,7 +45,8 @@ else
 	$(hide) $(U_BOOT_PATH_OVERRIDE) make $(U_BOOT_MAKE_FLAGS) $(TARGET_U_BOOT_CONFIG)
 endif
 ifneq ($(TARGET_U_BOOT_ENV),)
-	$(hide) $(U_BOOT_PATH_OVERRIDE) $(U_BOOT_KCONFIG) --file $(U_BOOT_CONFIG) --set-val ENV_SOURCE_FILE \"$(BUILD_TOP)/$(TARGET_U_BOOT_ENV)\"
+	$(hide) cat $(TARGET_U_BOOT_ENV) > $(U_BOOT_ENV)
+	$(hide) $(U_BOOT_PATH_OVERRIDE) $(U_BOOT_KCONFIG) --file $(U_BOOT_CONFIG) --set-val ENV_SOURCE_FILE \"$(U_BOOT_ENV)\"
 endif
 ifneq ($(TARGET_U_BOOT_CONFIG_FRAGMENT)$(TARGET_U_BOOT_ENV),)
 	$(hide) $(U_BOOT_PATH_OVERRIDE) make $(U_BOOT_MAKE_FLAGS) olddefconfig
