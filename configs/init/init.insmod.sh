@@ -9,7 +9,7 @@
 
 modules_dir=
 
-for f in /vendor_dlkm/lib/modules/*/modules.dep /vendor_dlkm/lib/modules/modules.dep; do
+for f in /vendor/lib/modules/*/modules.dep /vendor/lib/modules/modules.dep; do
   if [[ -f "$f" ]]; then
     modules_dir="$(dirname "$f")"
     break
