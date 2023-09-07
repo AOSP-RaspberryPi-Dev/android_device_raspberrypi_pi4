@@ -34,14 +34,14 @@ U_BOOT_MAKE_FLAGS += ARCH=arm CROSS_COMPILE=aarch64-linux-gnu- LLVM=1
 U_BOOT_PATH_OVERRIDE := PATH=$(U_BOOT_CLANG_PATH)/bin:$(U_BOOT_BUILD_TOOLS_PATH):$$PATH
 U_BOOT_PATH_OVERRIDE += BISON_PKGDATADIR=$(BUILD_TOP)/prebuilts/build-tools/common/bison
 
-U_BOOT_PART_SIZES := -DSUPER_SIZE=$(BOARD_SUPER_PARTITION_SIZE)
+U_BOOT_PART_SIZES := -DSUPER_SIZE=$(shell printf "0x%x" $(BOARD_SUPER_PARTITION_SIZE))
 $(foreach partition,$(call to-upper, $(AB_OTA_PARTITIONS)), \
   $(if $(BOARD_$(partition)_IMAGE_PARTITION_SIZE), \
-    $(eval U_BOOT_PART_SIZES += -D$(partition)_SIZE=$(BOARD_$(partition)_IMAGE_PARTITION_SIZE))) \
+    $(eval U_BOOT_PART_SIZES += -D$(partition)_SIZE=$(shell printf "0x%x" $(BOARD_$(partition)_IMAGE_PARTITION_SIZE)))) \
   $(if $(BOARD_$(partition)IMAGE_PARTITION_SIZE), \
-    $(eval U_BOOT_PART_SIZES += -D$(partition)_SIZE=$(BOARD_$(partition)IMAGE_PARTITION_SIZE))) \
+    $(eval U_BOOT_PART_SIZES += -D$(partition)_SIZE=$(shell printf "0x%x" $(BOARD_$(partition)IMAGE_PARTITION_SIZE)))) \
   $(if $(BOARD_$(partition)IMG_PARTITION_SIZE), \
-    $(eval U_BOOT_PART_SIZES += -D$(partition)_SIZE=$(BOARD_$(partition)IMG_PARTITION_SIZE))))
+    $(eval U_BOOT_PART_SIZES += -D$(partition)_SIZE=$(shell printf "0x%x" $(BOARD_$(partition)IMG_PARTITION_SIZE)))))
 
 U_BOOT_MAKE_FLAGS += CFLAGS="$(U_BOOT_PART_SIZES)"
 
