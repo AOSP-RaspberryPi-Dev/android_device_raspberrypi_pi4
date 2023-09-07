@@ -24,3 +24,5 @@ vendor_dlkm                              /vendor_dlkm         ext4    ro,barrier
 
 /devices/platform/scb/*.pcie/*/*/*/usb*  auto                 auto    defaults                                                                                voldmanaged=usb:auto
 /devices/platform/soc/*.usb/usb*         auto                 auto    defaults                                                                                voldmanaged=usb:auto
+
+/dev/block/zram0                         none                 swap    defaults                                                                                zramsize=50%
