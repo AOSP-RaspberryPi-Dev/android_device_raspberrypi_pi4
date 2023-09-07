@@ -1,1 +1,3 @@
 allow fastbootd kernel:process setsched;
+
+allow fastbootd custom_ab_block_device:blk_file rw_file_perms;
