@@ -188,6 +188,7 @@ TARGET_U_BOOT_SOURCE := external/raspberrypi/u-boot
 TARGET_U_BOOT_ENV := \
     $(TARGET_U_BOOT_SOURCE)/board/raspberrypi/rpi/rpi.env \
     $(DEVICE_PATH)/configs/bootloader/env.txt
+TARGET_U_BOOT_OVERLAYS := $(DEVICE_PATH)/configs/bootloader/overlays
 
 ## Verified Boot
 BOARD_AVB_ENABLE := true

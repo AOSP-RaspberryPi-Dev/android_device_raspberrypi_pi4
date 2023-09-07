@@ -74,6 +74,7 @@ BOOTLOADER_SIZE_MB := $(shell echo $$(( $(BOARD_BOOTLOADERIMAGE_PARTITION_SIZE) 
 KERNEL_OUT := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ
 DTB_DIR := $(KERNEL_OUT)/arch/$(KERNEL_ARCH)/boot/dts
 FIRMWARE_DIR := vendor/raspberrypi/rpi-firmware
+U_BOOT_DTC := $(U_BOOT_OUT)/scripts/dtc/dtc
 
 INSTALLED_BOOTLOADERIMAGE_TARGET := $(PRODUCT_OUT)/bootloader.img
 
@@ -88,6 +89,10 @@ endif
 	cp $(DTB_DIR)/broadcom/*.dtb $@
 	$(hide) mkdir -p $@/overlays
 	cp $(DTB_DIR)/overlays/*.dtbo $@/overlays
+ifneq ($(TARGET_U_BOOT_OVERLAYS),)
+	$(foreach overlay,$(wildcard $(TARGET_U_BOOT_OVERLAYS)/*.dts), \
+	  $(U_BOOT_DTC) $(overlay) -o $@/overlays/$(patsubst %.dts,%.dtbo,$(notdir $(overlay))))
+endif
 	cp $(FIRMWARE_DIR)/*.bin $@
 	cp $(FIRMWARE_DIR)/*.dat $@
 	cp $(FIRMWARE_DIR)/*.elf $@
