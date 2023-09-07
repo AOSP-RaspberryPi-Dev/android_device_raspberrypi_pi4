@@ -134,6 +134,12 @@ TARGET_KERNEL_CONFIG := bcm2711_defconfig
 TARGET_KERNEL_NO_GCC := true
 TARGET_KERNEL_SOURCE := kernel/raspberrypi/common
 
+TARGET_KERNEL_CONFIG_ROOT := \
+    $(shell echo $(TARGET_KERNEL_SOURCE)/arch/$(TARGET_ARCH)/configs | sed 's/[^/]*/../g')
+TARGET_KERNEL_CONFIG += \
+    $(TARGET_KERNEL_CONFIG_ROOT)/$(DEVICE_PATH)/configs/kernel/bcm2711_android.config \
+    $(TARGET_KERNEL_CONFIG_ROOT)/kernel/configs/u/android-6.1/android-base.config
+
 ## Kernel Modules
 BOARD_VENDOR_KERNEL_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVICE_PATH)/configs/kernel/modules.load))
 BOOT_KERNEL_MODULES := $(BOARD_VENDOR_KERNEL_RAMDISK_KERNEL_MODULES_LOAD)
