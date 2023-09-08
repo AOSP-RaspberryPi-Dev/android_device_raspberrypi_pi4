@@ -23,6 +23,8 @@ AB_OTA_PARTITIONS += \
     dtbo \
     init_boot \
     vbmeta \
+    vbmeta_system \
+    vbmeta_vendor \
     vendor_boot \
     vendor_kernel_boot
 
@@ -184,7 +186,10 @@ BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
 
 ## U-Boot
 TARGET_U_BOOT_CONFIG := rpi_4_defconfig
-TARGET_U_BOOT_CONFIG_FRAGMENT := $(DEVICE_PATH)/configs/bootloader/rpi_4_android.config
+TARGET_U_BOOT_CONFIG_FRAGMENTS := $(DEVICE_PATH)/configs/bootloader/rpi_4_android.config
+ifeq ($(TARGET_AVB_ENABLE),true)
+TARGET_U_BOOT_CONFIG_FRAGMENTS += $(DEVICE_PATH)/configs/bootloader/avb.config
+endif
 TARGET_U_BOOT_SOURCE := external/raspberrypi/u-boot
 TARGET_U_BOOT_ENV := \
     $(TARGET_U_BOOT_SOURCE)/board/raspberrypi/rpi/rpi.env \
@@ -194,6 +199,35 @@ TARGET_U_BOOT_OVERLAYS := $(DEVICE_PATH)/configs/bootloader/overlays
 ## Verified Boot
 BOARD_AVB_ENABLE := true
 BOARD_AVB_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+ifneq ($(TARGET_AVB_ENABLE),true)
+BOARD_AVB_MAKE_VBMETA_IMAGE_ARGS += --flags 3
+endif
+
+# Enable chain partition for system
+BOARD_AVB_VBMETA_SYSTEM := system system_dlkm system_ext product
+BOARD_AVB_VBMETA_SYSTEM_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
+BOARD_AVB_VBMETA_SYSTEM_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_VBMETA_SYSTEM_ROLLBACK_INDEX_LOCATION := 1
+
+# Enable chain partition for vendor
+BOARD_AVB_VBMETA_VENDOR := vendor vendor_dlkm odm odm_dlkm
+BOARD_AVB_VBMETA_VENDOR_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
+BOARD_AVB_VBMETA_VENDOR_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_VBMETA_VENDOR_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_VBMETA_VENDOR_ROLLBACK_INDEX_LOCATION := 3
+
+# Enable chained vbmeta for boot images
+BOARD_AVB_BOOT_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
+BOARD_AVB_BOOT_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_BOOT_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_BOOT_ROLLBACK_INDEX_LOCATION := 2
+
+# Enable chained vbmeta for init_boot images
+BOARD_AVB_INIT_BOOT_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
+BOARD_AVB_INIT_BOOT_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_INIT_BOOT_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
+BOARD_AVB_INIT_BOOT_ROLLBACK_INDEX_LOCATION := 4
 
 ## Wi-Fi
 BOARD_WLAN_DEVICE                := bcmdhd

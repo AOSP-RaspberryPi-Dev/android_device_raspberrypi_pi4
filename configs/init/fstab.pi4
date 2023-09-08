@@ -1,30 +1,30 @@
-odm                                      /odm                 ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect
-odm                                      /odm                 erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect
-odm_dlkm                                 /odm_dlkm            ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect
-odm_dlkm                                 /odm_dlkm            erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect
-product                                  /product             ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect
-product                                  /product             erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect
-system                                   /system              ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect
-system                                   /system              erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect
-system_dlkm                              /system_dlkm         ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect
-system_dlkm                              /system_dlkm         erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect
-system_ext                               /system_ext          ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect
-system_ext                               /system_ext          erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect
-vendor                                   /vendor              ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect
-vendor                                   /vendor              erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect
-vendor_dlkm                              /vendor_dlkm         ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect
-vendor_dlkm                              /vendor_dlkm         erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect
+odm                                      /odm                 ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect,avb=vbmeta_vendor
+odm                                      /odm                 erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect,avb=vbmeta_vendor
+odm_dlkm                                 /odm_dlkm            ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect,avb=vbmeta_vendor
+odm_dlkm                                 /odm_dlkm            erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect,avb=vbmeta_vendor
+product                                  /product             ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect,avb=vbmeta_system
+product                                  /product             erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect,avb=vbmeta_system
+system                                   /system              ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect,avb=vbmeta_system
+system                                   /system              erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect,avb=vbmeta_system
+system_dlkm                              /system_dlkm         ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect,avb=vbmeta_system
+system_dlkm                              /system_dlkm         erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect,avb=vbmeta_system
+system_ext                               /system_ext          ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect,avb=vbmeta_system
+system_ext                               /system_ext          erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect,avb=vbmeta_system
+vendor                                   /vendor              ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect,avb=vbmeta_vendor
+vendor                                   /vendor              erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect,avb=vbmeta_vendor
+vendor_dlkm                              /vendor_dlkm         ext4    ro,barrier=1                                                                            wait,logical,first_stage_mount,slotselect,avb=vbmeta_vendor
+vendor_dlkm                              /vendor_dlkm         erofs   ro                                                                                      wait,logical,first_stage_mount,slotselect,avb=vbmeta_vendor
 
 /dev/block/by-name/metadata              /metadata            ext4    noatime,nosuid,nodev,data=journal,commit=1                                              wait,check,formattable,first_stage_mount,metadata_csum
 
 /dev/block/by-name/userdata              /data                ext4    noatime,nosuid,nodev,noauto_da_alloc,discard,journal_checksum,data=ordered,errors=panic latemount,wait,check,formattable,quota,fileencryption=adiantum,metadata_encryption=adiantum,keydirectory=/metadata/vold/metadata_encryption
 
-/dev/block/by-name/boot                  /boot                emmc    defaults                                                                                recoveryonly,slotselect
-/dev/block/by-name/dtbo                  /dtbo                emmc    defaults                                                                                recoveryonly,slotselect
-/dev/block/by-name/init_boot             /init_boot           emmc    defaults                                                                                recoveryonly,slotselect
+/dev/block/by-name/boot                  /boot                emmc    defaults                                                                                recoveryonly,slotselect,avb=boot
+/dev/block/by-name/dtbo                  /dtbo                emmc    defaults                                                                                recoveryonly,slotselect,avb=vbmeta
+/dev/block/by-name/init_boot             /init_boot           emmc    defaults                                                                                recoveryonly,slotselect,avb=init_boot
 /dev/block/by-name/vbmeta                /vbmeta              emmc    defaults                                                                                first_stage_mount,slotselect
-/dev/block/by-name/vendor_boot           /vendor_boot         emmc    defaults                                                                                recoveryonly,slotselect
-/dev/block/by-name/vendor_kernel_boot    /vendor_kernel_boot  emmc    defaults                                                                                recoveryonly,slotselect
+/dev/block/by-name/vendor_boot           /vendor_boot         emmc    defaults                                                                                recoveryonly,slotselect,avb=vbmeta
+/dev/block/by-name/vendor_kernel_boot    /vendor_kernel_boot  emmc    defaults                                                                                recoveryonly,slotselect,avb=vbmeta
 
 /dev/block/by-name/misc                  /misc                emmc    defaults                                                                                defaults
 
