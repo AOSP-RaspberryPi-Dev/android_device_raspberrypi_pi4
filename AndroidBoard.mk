@@ -73,12 +73,17 @@ BOOTLOADER_OUT := $(TARGET_OUT_INTERMEDIATES)/BOOTLOADER_OBJ
 BOOTLOADER_SIZE_MB := $(shell echo $$(( $(BOARD_BOOTLOADERIMAGE_PARTITION_SIZE) / 1024 / 1024 )))
 KERNEL_OUT := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ
 DTB_DIR := $(KERNEL_OUT)/arch/$(KERNEL_ARCH)/boot/dts
+EEPROM_DIR := vendor/raspberrypi/rpi-eeprom
 FIRMWARE_DIR := vendor/raspberrypi/rpi-firmware
 U_BOOT_DTC := $(U_BOOT_OUT)/scripts/dtc/dtc
 
+EEPROM_DIGEST := $(EEPROM_DIR)/rpi-eeprom-digest
+LATEST_EEPROM := $(lastword $(shell ls -1 $(EEPROM_DIR)/firmware/stable/pieeprom-*.bin))
+LATEST_EEPROM_VL805 := $(lastword $(shell ls -1 $(EEPROM_DIR)/firmware/stable/vl805-*.bin))
+
 INSTALLED_BOOTLOADERIMAGE_TARGET := $(PRODUCT_OUT)/bootloader.img
 
-$(BOOTLOADER_OUT): $(PRODUCT_OUT)/kernel $(FIRMWARE_DIR) $(U_BOOT_BIN)
+$(BOOTLOADER_OUT): $(PRODUCT_OUT)/kernel $(FIRMWARE_DIR) $(U_BOOT_BIN) $(EEPROM_DIR)
 	$(hide) mkdir -p $@
 	cp $(DEVICE_PATH)/configs/bootloader/config.txt $@
 ifeq ($(TARGET_ENABLE_SERIAL_CONSOLE),true)
@@ -96,6 +101,11 @@ endif
 	cp $(FIRMWARE_DIR)/*.bin $@
 	cp $(FIRMWARE_DIR)/*.dat $@
 	cp $(FIRMWARE_DIR)/*.elf $@
+	cp $(EEPROM_DIR)/firmware/stable/recovery.bin $@
+	cp $(LATEST_EEPROM) $@/pieeprom.upd
+	$(EEPROM_DIGEST) -i $(LATEST_EEPROM) -o $@/pieeprom.sig
+	cp $(LATEST_EEPROM_VL805) $@/vl805.bin
+	$(EEPROM_DIGEST) -i $(LATEST_EEPROM_VL805) -o $@/vl805.sig
 	cp $(U_BOOT_BIN) $@
 
 $(INSTALLED_BOOTLOADERIMAGE_TARGET): $(MTOOLS) $(BOOTLOADER_OUT)
